@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "mycamapp",
+    "slug": "mycamapp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "plugins": [
+      ["expo-camera", 
+      {
+        "cameraPermissions": "Allow ${PRODUCT_NAME} to access your camera",
+        "microphonePermissions": "Allow ${PRODUCT_NAME} to access your microphone",
+        "recordAudioAndroid": true
+      }]
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.mycamapp",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+      
+    
+  }
+}
