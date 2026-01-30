@@ -1,4 +1,4 @@
-import {Stack, Tabs} from "expo-router";
+import {Stack} from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
 import {Provider} from "react-redux";
 import store from "../store/store";
@@ -7,24 +7,16 @@ import Index from "./index";
 export default function Layout() {
     return(
         <Provider store={store}>
-            <Tabs
-             screenOptions={{
-                 tabBarActiveTintColor: 'tomato',
-                 
-                 tabBarStyle: 
-                     {backgroundColor: 'white',
-                     }
-             }}
+            <Stack
+             
             >
-                <Tabs.Screen name="Home" options={{
-                    title: "Home",
-                    tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={24} />
+                <Stack.Screen name="Home" options={{
+                    title: "Home"
                 }} />
-                <Tabs.Screen name="cart" options={{
-                    title: "Cart",
-                    tabBarIcon: ({ color, size }) => <Ionicons name="cart" color={color} size={24} />
-                }} />
-            </Tabs>
+                <Stack.Screen name="cart" options={{
+                    title: "Cart"
+                    }}/>
+            </Stack>
         </Provider>
         )
 }
