@@ -12,7 +12,8 @@ export default function Products() {
     <SafeAreaView style={styles.container}>
         <Stack.Screen options={{ title: category as string }} />
         <View style={styles.header}>
-            <Text style={styles.headerText}>Total {products.length} found for {category}</Text>
+            <Text style={styles.headerText}>{category}</Text>
+            <Text style={styles.countText}>{products.length} Items</Text>
         </View>
         <FlatList 
             data={products} 
@@ -31,16 +32,24 @@ const styles = StyleSheet.create({
     },
     header: {
         paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingVertical: 16,
         backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     headerText: {
         fontSize: 14,
-        color: '#666',
-        fontWeight: '500',
+        color: '#1a1a1a',
+        fontWeight: '700',
         textTransform: 'capitalize',
+    },
+    countText: {
+        fontSize: 12,
+        color: '#888',
+        fontWeight: '500',
     },
     listContent: {
         paddingBottom: 16,
