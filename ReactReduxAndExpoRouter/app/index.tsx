@@ -17,10 +17,16 @@ export default function Index() {
     },[])
     
     return (<View style={styles.container}>
-        {loading ? <Text>Loading...</Text> : 
-         <FlatList style={styles.list} data={distinctCategories} renderItem={(item) => (
-             <CategoryTile category={item.item}/>
-         )} keyExtractor={(item) => item.toString()}
+        {loading ? <View style={styles.center}><Text>Loading...</Text></View> : 
+         <FlatList 
+            style={styles.list} 
+            data={distinctCategories} 
+            renderItem={(item) => (
+                <CategoryTile category={item.item}/>
+            )} 
+            keyExtractor={(item) => item.toString()}
+            numColumns={2}
+            contentContainerStyle={styles.listContent}
         />
         }
     </View>)
@@ -29,12 +35,17 @@ export default function Index() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        backgroundColor: '#fff',
+        backgroundColor: '#f8f9fa',
+    },
+    center: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
     list: {
-        width: '100%',
+        flex: 1,
+    },
+    listContent: {
+        padding: 8,
     }
 })

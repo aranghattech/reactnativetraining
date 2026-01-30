@@ -4,7 +4,8 @@ import {Link} from "expo-router";
 
 export function ProductTile({ product }: { product: Product }) {
     return (
-        <Link href={`/products/details/${product.id}`} asChild>
+        <Link href={{ pathname: `/products/details/${product.id}`, params: {id: product.id} }}
+        asChild>
             <Pressable style={styles.card}>
                 <Image 
                     source={{uri: product.thumbnail}}
