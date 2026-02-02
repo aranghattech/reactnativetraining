@@ -1,14 +1,29 @@
 import {useLocalSearchParams, Stack} from "expo-router";
-import {View, Text, Image, StyleSheet, ScrollView, Dimensions, TouchableOpacity, SafeAreaView, FlatList} from "react-native";
-import {useAppSelector} from "../../../store/store";
+import {
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    ScrollView,
+    Dimensions,
+    TouchableOpacity,
+    SafeAreaView,
+    FlatList,
+    Alert
+} from "react-native";
+import {useAppDispatch, useAppSelector} from "../../../store/store";
 import {Product, Review} from "../../../types/product";
+import {addToCart} from "../../../store/cartSlice";
+import {Toast} from "expo-router/build/views/Toast";
 
 const { width, height } = Dimensions.get('window');
 
 export default function ProductDetails() {
     const {id} = useLocalSearchParams();
     const product:Product|undefined  = useAppSelector(state => state.products.products.find(product => product.id === Number(id)));
-
+    const dispatch = useAppDispatch();
+    
+    
     if (!product) {
         return (
             <View style={styles.center}>
@@ -17,8 +32,17 @@ export default function ProductDetails() {
         );
     }
 
+    function onAddToCart()
+    {
+        if(id === undefined)
+            return;
+        
+        dispatch(addToCart({ id : 1, productid : Number(id),  quantity : 1}));
+        Alert.alert("Added to Cart");
+    }   
+    
     const renderReview = (review: Review) => (
-        <View style={styles.reviewCard} key={review.reviewerEmail + review.date}>
+        <View style={styles.reviewCard} key={review.reviewerEmail + review.date + new Date().getTime().toString()}>
             <View style={styles.reviewHeader}>
                 <Text style={styles.reviewerName}>{review.reviewerName}</Text>
                 <Text style={styles.reviewRating}>⭐ {review.rating}</Text>
@@ -126,7 +150,7 @@ export default function ProductDetails() {
             <View style={styles.footer}>
                 <TouchableOpacity 
                     style={styles.addToCartButton}
-                    onPress={() => alert('Added to cart!')}
+                    onPress={onAddToCart}
                 >
                     <Text style={styles.addToCartText}>Add to Cart • ${product.price.toFixed(2)}</Text>
                 </TouchableOpacity>

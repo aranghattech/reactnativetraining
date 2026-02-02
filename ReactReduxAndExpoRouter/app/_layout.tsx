@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import {Provider} from "react-redux";
 import store from "../store/store";
 import Index from "./index";
+import {View} from "react-native";
 
 export default function Layout() {
     return(
@@ -11,7 +12,10 @@ export default function Layout() {
              
             >
                 <Stack.Screen name="Home" options={{
-                    title: "Home"
+                    title: "Home",
+                    headerRight: () => <View>
+                        <Ionicons name="cart" size={24} color="black" />
+                    </View>
                 }} />
                 <Stack.Screen name="cart" options={{
                     title: "Cart"
