@@ -2,6 +2,9 @@ import { useState, useContext } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, Alert } from "react-native";
 import { Link, useRouter } from "expo-router";
 import { UserContext } from "../../contexts/UserContext";
+import app from '../../firebaseconfig'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+
 
 export default function Register() {
     const [name, setName] = useState("");
@@ -9,6 +12,8 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const { setUser } = useContext(UserContext);
     const router = useRouter();
+    
+    const auth = getAuth(app)
 
     const handleRegister = () => {
         if (!name || !email || !password) {
@@ -16,15 +21,14 @@ export default function Register() {
             return;
         }
 
-        // Mock registration
-        setUser({
-            id: Date.now(),
-            name: name,
-            email: email
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            Alert.alert("Success", "Account created successfully");
+            router.replace("/");
+        })
+        .catch((error) => {
+            Alert.alert("Error", error.message);
         });
-
-        Alert.alert("Success", "Account created successfully");
-        router.replace("/");
     };
 
     return (
