@@ -6,18 +6,43 @@ import { Product } from "../../types/product";
 import {useContext} from "react";
 import {UserContext} from "../../contexts/UserContext";
 import {useRouter} from "expo-router";
+import {getFirestore, addDoc, collection,query, where,getDoc} from "firebase/firestore";
+import app from '../../firebaseconfig'
 
 export default function Cart() {
     
     const userContext = useContext(UserContext);
     const router = useRouter();
+    const cart = useSelector((state: RootState) => state.cart.cartItems);       
     
     function handleOnOrderPress()
     {
         if (userContext.user)
         {
+            if (cart.length === 0)
+            {
+                
+                Alert.alert("Error", "Cart is empty");
+                return;
+            }
+
+            const db = getFirestore(app);
+            const ordersCollection = collection(db, "orders");
+            const orderRef = addDoc(ordersCollection, {
+                userId: userContext.user.id,
+                items: cart,
+                status: "pending",
+                address: "No 56, 2nd Street, New Delhi, India",
+                timestamp: Date.now(),
+            });
             
-            Alert.alert("Success", "Order placed successfully");
+           const getMyOrders = query(ordersCollection, where("userId", "==", userContext.user.id));
+           const orders =  getDoc(getMyOrders);
+            
+            orderRef.then(() => {
+                Alert.alert("Success", "Order placed successfully");
+                router.replace("/");
+            })
         }
         else
             router.replace("/login");

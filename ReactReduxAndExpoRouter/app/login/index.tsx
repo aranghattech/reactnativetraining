@@ -2,12 +2,15 @@ import { useState, useContext } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, Alert } from "react-native";
 import { Link, useRouter } from "expo-router";
 import { UserContext } from "../../contexts/UserContext";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import app from '../../firebaseconfig'
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { setUser } = useContext(UserContext);
     const router = useRouter();
+    const auth = getAuth(app);
 
     const handleLogin = () => {
         if (!email || !password) {
@@ -15,15 +18,18 @@ export default function Login() {
             return;
         }
 
-        // Mock login
-        setUser({
-            id: Date.now(),
-            name: email.split('@')[0],
-            email: email
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            console.log(userCredential.user);
+            
+           
+            setUser({ id: userCredential.user.uid, name: userCredential.user.displayName ?? "", email: userCredential.user.email ?? ""});
+            Alert.alert("Success", "Logged in successfully");
+            router.replace("/");
+        })
+        .catch((error) => {
+            Alert.alert("Error", error.message);
         });
-
-        Alert.alert("Success", "Logged in successfully");
-        router.replace("/");
     };
 
     return (
