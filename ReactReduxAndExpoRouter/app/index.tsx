@@ -19,10 +19,14 @@ export default function Index() {
     },[])
     
     return (<View style={styles.container}>
-        <Stack.Screen options={{ title: 'E-Commerce App', headerRight: () => <View style={{ flexDirection : "row"}}>
+        <Stack.Screen options={{ title: 'E-Commerce App', headerRight: () => <Link 
+                href={{
+                    pathname : "/cart"
+                }}
+                style={{ flexDirection : "row"}}>
             <Ionicons name="cart" size={24} color="black" />
                 <Text style={{ backgroundColor : "red", padding : 5, borderRadius : 10}}>{cart.cartItems.length}</Text>
-        </View>  }} />
+        </Link>  }} />
         {loading ? <View style={styles.center}><Text>Loading...</Text></View> : 
          <FlatList 
             style={styles.list} 

@@ -37,7 +37,7 @@ export default function ProductDetails() {
         if(id === undefined)
             return;
         
-        dispatch(addToCart({ id : 1, productid : Number(id),  quantity : 1}));
+        dispatch(addToCart({ id : Date.now(), productId : Number(id),  quantity : 1}));
         Alert.alert("Added to Cart");
     }   
     
