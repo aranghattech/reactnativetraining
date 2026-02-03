@@ -1,10 +1,24 @@
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
+import {View, Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, Alert} from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { CartItem } from "../../types/cart";
 import { Product } from "../../types/product";
+import {useContext} from "react";
+import {UserContext} from "../../contexts/UserContext";
 
 export default function Cart() {
+    
+    const userContext = useContext(UserContext);
+    function handleOnOrderPress()
+    {
+        if (userContext.user)
+        {
+            Alert.alert("Order Submitted");
+        }
+        else 
+            Alert.alert("Please Login First");
+    }
+    
     const { cartItems } = useSelector((state: RootState) => state.cart);
     const { products } = useSelector((state: RootState) => state.products);
 
@@ -62,7 +76,7 @@ export default function Cart() {
                     <Text style={styles.netTotalValue}>${netTotal.toFixed(2)}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.orderButton}>
+                <TouchableOpacity style={styles.orderButton} onPress={handleOnOrderPress}>
                     <Text style={styles.orderButtonText}>Add Order</Text>
                 </TouchableOpacity>
             </View>
