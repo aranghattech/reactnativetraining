@@ -5,18 +5,22 @@ import { CartItem } from "../../types/cart";
 import { Product } from "../../types/product";
 import {useContext} from "react";
 import {UserContext} from "../../contexts/UserContext";
+import {useRouter} from "expo-router";
 
 export default function Cart() {
     
     const userContext = useContext(UserContext);
+    const router = useRouter();
+    
     function handleOnOrderPress()
     {
         if (userContext.user)
         {
-            Alert.alert("Order Submitted");
+            
+            Alert.alert("Success", "Order placed successfully");
         }
-        else 
-            Alert.alert("Please Login First");
+        else
+            router.replace("/login");
     }
     
     const { cartItems } = useSelector((state: RootState) => state.cart);
