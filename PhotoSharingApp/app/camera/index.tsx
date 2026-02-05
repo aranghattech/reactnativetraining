@@ -1,7 +1,34 @@
-import {View, Text} from "react-native";
+import {View, Text, Button, Image} from "react-native";
+import {useEffect, useState} from "react";
+import *  as ImagePicker from 'expo-image-picker';
     
 export default function Index(){
+    
+   const [image, setImage] = useState<string | undefined>();
+    
+    async function takePicture(){
+        console.log("Taking picture");
+        const result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: false,
+            aspect: [1, 1],
+            quality: 1,
+        });
+        
+        if (!result.canceled)
+        {
+            console.log("Picture taken:");
+            console.log(result.assets[0].uri);
+            setImage(result.assets[0].uri);
+        }
+        else {
+            console.log("Picture canceled");
+        }
+    }
+    
+    
     return <View>
-        <Text>Camera</Text>
+        {image && <Image source={{uri: image}} style={{width: 200, height: 200}} />}
+        <Button title="Launch Camera" onPress={takePicture} />
     </View>
 }
